@@ -1,12 +1,18 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import Link from "next/link";
-import '../styles/global.css'
 
 const Users = () => {
     const [users, setUsers] = useState([
         {id: 1, name: 'petya'},
         {id: 1, name: 'vasya'},
     ])
+
+    useEffect(async () =>{
+        const response = await fetch(`https://jsonplaceholder.typicode.com/users`)
+        const data = await response.json()
+        setUsers(data)
+    },[])
+
     return (
         <div>
             <h1>список пользователей</h1>
