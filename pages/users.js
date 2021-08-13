@@ -1,20 +1,11 @@
 import {useEffect, useState} from 'react'
 import Link from "next/link";
+import MainContainer from "../components/MainContainer";
 
-const Users = () => {
-    const [users, setUsers] = useState([
-        {id: 1, name: 'petya'},
-        {id: 1, name: 'vasya'},
-    ])
-
-    useEffect(async () =>{
-        const response = await fetch(`https://jsonplaceholder.typicode.com/users`)
-        const data = await response.json()
-        setUsers(data)
-    },[])
+const Users = ({users}) => {
 
     return (
-        <div>
+        <MainContainer>
             <h1>список пользователей</h1>
             <ul>
                 {users.map(user =>
@@ -25,8 +16,16 @@ const Users = () => {
                     </li>
                 )}
             </ul>
-        </div>
+        </MainContainer>
     );
 };
 
 export default Users;
+
+export async function getStaticProps(content) {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users`)
+    const users = await response.json()
+    return {
+        props: {users}
+    }
+}
